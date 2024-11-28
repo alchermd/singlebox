@@ -11,5 +11,9 @@ data "aws_ami" "amzn-linux-2023-ami" {
 resource "aws_instance" "instance" {
   ami           = data.aws_ami.amzn-linux-2023-ami.id
   instance_type = var.instance_type
+
+  tags = {
+    DeploymentTag = "singlebox_instance"
+  }
 }
 
