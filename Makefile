@@ -6,6 +6,12 @@ scripts-init:
 
 init: tf-init scripts-init
 
+dev:
+	cd src && docker compose up --build
+
+migrate:
+	cd src && docker compose exec web python manage.py migrate
+
 lint:
 	terraform fmt -write -recursive
 

@@ -1,5 +1,13 @@
 # singlebox
 
+## Development
+
+```console
+$ cp src/web/.env.dev.example src/web/.env.dev # Update as necessary
+$ make dev
+$ make migrate
+```
+
 ## Deployment
 
 ```console
