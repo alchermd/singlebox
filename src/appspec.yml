@@ -1,5 +1,17 @@
 version: 0.0
 os: linux
 files:
-  - source: index.html
-    destination: /var/www/html
+  - source: ./
+    destination: /home/ec2-user/singlebox
+hooks:
+  AfterInstall:
+    - location: scripts/configure_env.sh
+      runas: root
+      timeout: 30
+  ApplicationStart:
+    - location: scripts/start_containers.sh
+      runas: root
+      timeout: 300
+    - location: scripts/run_migrations.sh
+      runas: ec2-user
+      timeout: 30
