@@ -17,5 +17,10 @@ deploy-src:
 
 deploy: tf deploy-src
 
-destroy:
+cleanup:
+	cd scripts && source ./venv/bin/activate && python cleanup.py
+
+destroy-tf:
 	cd terraform && terraform destroy -auto-approve -var-file=.tfvars
+
+destroy: cleanup destroy-tf
