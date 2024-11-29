@@ -12,7 +12,7 @@ data "aws_iam_policy_document" "assume_role" {
 }
 
 resource "aws_iam_role" "codedeploy_service_role" {
-  name               = "example-role"
+  name               = "codedeploy_service_role"
   assume_role_policy = data.aws_iam_policy_document.assume_role.json
 }
 
@@ -26,13 +26,22 @@ resource "aws_codedeploy_app" "app" {
   name             = "singlebox_app"
 }
 
+output "codedeploy_app" {
+  value = aws_codedeploy_app.app.name
+}
+
+
 resource "aws_codedeploy_deployment_config" "config" {
   deployment_config_name = "singlebox_config"
 
   minimum_healthy_hosts {
     type  = "HOST_COUNT"
-    value = 1
+    value = 0
   }
+}
+
+output "codedeploy_config_name" {
+  value = aws_codedeploy_deployment_config.config.deployment_config_name
 }
 
 resource "aws_codedeploy_deployment_group" "deployment_group" {
@@ -53,4 +62,16 @@ resource "aws_codedeploy_deployment_group" "deployment_group" {
     enabled = true
     events  = ["DEPLOYMENT_FAILURE"]
   }
+}
+
+output "codedeploy_deployment_group" {
+  value = aws_codedeploy_deployment_group.deployment_group.deployment_group_name
+}
+
+resource "aws_s3_bucket" "codedeploy_artifact_bucket" {
+  bucket = "singlebox-artifact-bucket"
+}
+
+output "codedeploy_artifact_bucket" {
+  value = aws_s3_bucket.codedeploy_artifact_bucket.id
 }
