@@ -12,4 +12,4 @@ else
 fi
 
 # Build and start Docker containers in detached mode
-docker-compose up --build -d
+docker-compose -f compose.yml -f compose.prod.yml up --build -d

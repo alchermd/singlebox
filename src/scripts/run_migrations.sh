@@ -12,4 +12,4 @@ else
 fi
 
 # Run Django migrations using Docker Compose
-docker-compose exec web python manage.py migrate
+docker-compose -f compose.yml -f compose.prod.yml exec web python manage.py migrate

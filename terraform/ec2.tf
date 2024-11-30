@@ -1,3 +1,7 @@
+data "aws_region" "current" {}
+
+data "aws_caller_identity" "current" {}
+
 data "aws_ami" "amzn-linux-2023-ami" {
   most_recent = true
   owners      = ["amazon"]
@@ -77,6 +81,32 @@ resource "aws_iam_role_policy" "codedeploy_instance_profile_allow_s3" {
         Action  = ["s3:Get*", "s3:List*"]
         Resource = "*"
       }
+    ]
+  })
+}
+
+resource "aws_iam_role_policy" "codedeploy_instance_profile_allow_get_param_store" {
+  role = aws_iam_role.instance_profile_role.id
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect   = "Allow"
+        Action  = [
+          "ssm:GetParameter",
+          "ssm:GetParameters",
+        ]
+        Resource = "arn:aws:ssm:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:parameter/singlebox/*"
+      },
+      {
+            "Effect": "Allow",
+            "Action": [
+                "kms:Decrypt"
+            ],
+            "Resource": [
+                "*"
+            ]
+        }
     ]
   })
 }

@@ -1,0 +1,9 @@
+services:
+  web:
+    build: ./web
+    command: "gunicorn -b 0.0.0.0 -p 8000 config.wsgi:application"
+    volumes: !reset [ ]
+    env_file: !override
+      - ./web/.env.prod
+    depends_on:
+      - db
