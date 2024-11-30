@@ -15,3 +15,6 @@ hooks:
     - location: scripts/run_migrations.sh
       runas: ec2-user
       timeout: 30
+    - location: scripts/prune_containers.sh
+      runas: ec2-user
+      timeout: 30
