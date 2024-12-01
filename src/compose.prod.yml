@@ -3,7 +3,22 @@ services:
     build: ./web
     command: "gunicorn -b 0.0.0.0 -p 8000 config.wsgi:application"
     volumes: !reset [ ]
+    ports: !reset [ ]
     env_file: !override
       - ./web/.env.prod
     depends_on:
       - db
+  caddy:
+    build: ./caddy
+    volumes:
+      - ~/docker_data/caddy/data:/data
+      - ~/docker_data/caddy/config:/config
+    env_file:
+      - ./caddy/.env.prod
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    restart: unless-stopped
+    depends_on:
+      - web

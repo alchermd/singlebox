@@ -53,3 +53,10 @@ resource "aws_ssm_parameter" "db_port" {
   type        = "String"
   value       = "5432"
 }
+
+resource "aws_ssm_parameter" "site" {
+  name        = "/singlebox/SITE"
+  description = "Application site"
+  type        = "String"
+  value       = var.domain_name
+}
