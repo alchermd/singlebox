@@ -1,5 +1,19 @@
+# Infrastructure settings
 instance_type = "t3.micro"
+
+# Domain and DNS settings
 domain_name = "singlebox.example.com"
 route53_zone_name = "example.com"
 route53_a_record = "singlebox"
 route53_zone_id = "ABC123"
+
+# Application settings
+app_debug = "0"
+secret_key = "prod-key-replace-me"
+
+# Database settings
+db_database = "singlebox"
+db_user     = "singlebox_user"
+db_password = "singlebox_password"
+db_host     = "db"
+db_port     = 5432

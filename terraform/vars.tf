@@ -22,3 +22,40 @@ variable "route53_zone_id" {
   type        = string
   description = "The zone ID of the existing Route53 hosted zone."
 }
+
+variable "secret_key" {
+  type        = string
+  description = "The application's secret key, use for cryptographic purposes."
+}
+
+variable "app_debug" {
+  type        = string
+  description = "Whether the application launches in debug mode."
+}
+
+variable "db_database" {
+  type        = string
+  description = "Database name"
+}
+
+variable "db_user" {
+  type        = string
+  description = "Database user"
+}
+
+variable "db_password" {
+  type        = string
+  description = "Database password"
+}
+
+
+variable "db_host" {
+  type        = string
+  description = "Database host"
+}
+
+
+variable "db_port" {
+  type        = string
+  description = "Database port"
+}
