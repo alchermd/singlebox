@@ -17,13 +17,13 @@ data "local_file" "userdata" {
 }
 
 resource "aws_instance" "instance" {
-  ami                  = data.aws_ami.amzn-linux-2023-ami.id
-  instance_type        = var.instance_type
-  user_data            = data.local_file.userdata.content
-  subnet_id = aws_subnet.app_1.id
-  vpc_security_group_ids = [aws_security_group.app_sg.id, aws_security_group.singlebox.id]
+  ami                         = data.aws_ami.amzn-linux-2023-ami.id
+  instance_type               = var.instance_type
+  user_data                   = data.local_file.userdata.content
+  subnet_id                   = aws_subnet.app_1.id
+  vpc_security_group_ids      = [aws_security_group.app_sg.id, aws_security_group.singlebox.id]
   associate_public_ip_address = true
-  iam_instance_profile = aws_iam_instance_profile.instance_profile.name
+  iam_instance_profile        = aws_iam_instance_profile.instance_profile.name
 
   tags = {
     DeploymentTag = "singlebox_instance"
@@ -33,7 +33,7 @@ resource "aws_instance" "instance" {
 resource "aws_security_group" "singlebox" {
   name        = "singlebox"
   description = "singlebox instance security group rules"
-  vpc_id = aws_vpc.main.id
+  vpc_id      = aws_vpc.main.id
 
   # Inbound rule to allow SSH from anywhere
   ingress {
@@ -78,7 +78,7 @@ resource "aws_iam_role_policy" "codedeploy_instance_profile_allow_s3" {
     Statement = [
       {
         Effect   = "Allow"
-        Action  = ["s3:Get*", "s3:List*"]
+        Action   = ["s3:Get*", "s3:List*"]
         Resource = "*"
       }
     ]
@@ -91,22 +91,22 @@ resource "aws_iam_role_policy" "codedeploy_instance_profile_allow_get_param_stor
     Version = "2012-10-17"
     Statement = [
       {
-        Effect   = "Allow"
-        Action  = [
+        Effect = "Allow"
+        Action = [
           "ssm:GetParameter",
           "ssm:GetParameters",
         ]
         Resource = "arn:aws:ssm:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:parameter/singlebox/*"
       },
       {
-            "Effect": "Allow",
-            "Action": [
-                "kms:Decrypt"
-            ],
-            "Resource": [
-                "*"
-            ]
-        }
+        "Effect" : "Allow",
+        "Action" : [
+          "kms:Decrypt"
+        ],
+        "Resource" : [
+          "*"
+        ]
+      }
     ]
   })
 }
